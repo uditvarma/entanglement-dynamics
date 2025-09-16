@@ -206,8 +206,8 @@ function Entropy_t(L::Int, T::Float64, dt::Float64, p::Float64, direction::Strin
 
     for _ in 1:steps
         #push!(S_list, calculate_entropy(s_t, L, collect(1:L-1)))
-        #push!(S_list, calculate_entropy(s_t, L, collect(1:L÷2)))
-        push!(S_list, I3(s_t))
+        push!(S_list, calculate_entropy(s_t, L, collect(1:L÷2)))
+        #push!(S_list, I3(s_t))
 
         # Time evolution
         s_t = time_evolution(s_t, L)
@@ -232,9 +232,9 @@ function Entropy_t(L::Int, T::Float64, dt::Float64, p::Float64, direction::Strin
     end
 
     # Save result to disk
-    folder = "/Users/uditvarma/Documents/haar_data/data_i3"
+    folder = "/Users/uditvarma/Documents/haar_data/data_hc"
     mkpath(folder)
-    filename_i3 = joinpath(folder, "L$(L),T$(T),dt$(dt),p$(p),dir$(direction),s$(shot)_i3.npy")
+    filename_i3 = joinpath(folder, "L$(L),T$(T),dt$(dt),p$(p),dir$(direction),s$(shot)_hc.npy")
     npzwrite(filename_i3, S_list)
 
     return S_list
