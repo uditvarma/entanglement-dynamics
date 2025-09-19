@@ -182,8 +182,7 @@ function random_product_state(L::Int)
     return product_state / norm(product_state)
 end
 
-function Entropy_t(L::Int, T::Float64, dt::Float64, p::Float64, direction::String, shot::Int)
-    Random.seed!(shot)  # Set random seed
+function Entropy_t(L::Int, T::Float64, dt::Float64, p::Float64, direction::String, shot::Int) 
     s_t = random_product_state(L)
     #s_t = neel_spinhalf(L) ## Neel state
     S_list = Float64[]
@@ -206,8 +205,8 @@ function Entropy_t(L::Int, T::Float64, dt::Float64, p::Float64, direction::Strin
 
     for _ in 1:steps
         #push!(S_list, calculate_entropy(s_t, L, collect(1:L-1)))
-        push!(S_list, calculate_entropy(s_t, L, collect(1:L÷2)))
-        #push!(S_list, I3(s_t))
+        #push!(S_list, calculate_entropy(s_t, L, collect(1:L÷2)))
+        push!(S_list, I3(s_t))
 
         # Time evolution
         s_t = time_evolution(s_t, L)
@@ -232,9 +231,9 @@ function Entropy_t(L::Int, T::Float64, dt::Float64, p::Float64, direction::Strin
     end
 
     # Save result to disk
-    folder = "/Users/uditvarma/Documents/haar_data/data_hc"
+    folder = "/Users/uditvarma/Documents/haar_data/data_i3"
     mkpath(folder)
-    filename_i3 = joinpath(folder, "L$(L),T$(T),dt$(dt),p$(p),dir$(direction),s$(shot)_hc.npy")
+    filename_i3 = joinpath(folder, "L$(L),T$(T),dt$(dt),p$(p),dir$(direction),s$(shot)_i3.npy")
     npzwrite(filename_i3, S_list)
 
     return S_list
